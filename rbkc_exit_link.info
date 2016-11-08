@@ -1,0 +1,5 @@
+name = RBKC Exit link
+description = Change the Logout link in admin menu to Exit 
+core = 7.x
+package = RBKC
+

@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * hook_admin_menu_output_alter
+ * Change the Logout link into Exit link that takes the 
+ * user back to the dashboard
+ */
+function rbkc_exit_link_admin_menu_output_alter(&$content) {
+
+	// Only show exit link if bakery module is enabled
+	if (!module_exists('bakery')) {
+		return;
+	}
+
+	// Is this the master (ie dashboard) site? If so, then don't do anything.
+	$is_bakery_master = variable_get('bakery_is_master', false);
+	// var_dump($is_bakery_master);
+	if (!$is_bakery_master) {
+		// Get the dashboard site URL for this environment
+		$dashboard_site = variable_get('bakery_master', '');
+		if ($dashboard_site) {
+			// Change the Logout link to Exit, and make the target url the dashboard
+			$content['account']['logout']['#title'] = t('Exit to Dashboard');
+			$content['account']['logout']['#href'] = $dashboard_site;	
+		}
+	}
+}
